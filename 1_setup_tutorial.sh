@@ -69,7 +69,7 @@ jobs:
       - name: Install Cppcheck
         run: sudo apt-get install -y cppcheck
       - name: Run Cppcheck
-        run: cppcheck --enable=all --inconclusive --std=c++11 -I include/ --suppress=missingIncludeSystem --suppress=missingInclude --suppress=unusedFunction --suppress=cstyleCast --error-exitcode=1 src/
+        run: cppcheck --enable=all --inconclusive --std=c++11 -I include/ --suppress=missingIncludeSystem --suppress=missingInclude --suppress=unusedFunction --suppress=cstyleCast --suppress=unmatchedSuppression --error-exitcode=1 src/
 
   check-python:
     name: Python Lint & Security
