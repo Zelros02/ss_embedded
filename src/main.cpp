@@ -10,3 +10,5 @@ void loop() {
 }
 
 void testEroare() { int x = 5 } // Lipseste un punct si virgula intentionat
+
+void testEroare() { int x = 5 } // Lipseste un punct si virgula intentionat
