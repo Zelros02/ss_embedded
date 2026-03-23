@@ -8,3 +8,5 @@ void setup() {
 void loop() {
     // Bucla principala goala
 }
+
+void testEroare() { int x = 5 } // Lipseste un punct si virgula intentionat
