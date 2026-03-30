@@ -14,13 +14,33 @@
 const char* ssid     = "";       // TODO: Modificați cu SSID-ul rețelei voastre
 const char* password = "";     // TODO: Modificați cu parola rețelei voastre
 const char* mqtt_server = "10.10.10.10"; // TODO: Modificați cu IP-ul calculatorului (ip addr / ipconfig)
-const int mqtt_port = 1883;
+const int mqtt_port = 8883;
+const char* ca_cert = \
+"----BEGIN CERTIFICATE-----"
+"MIIDETCCAfmgAwIBAgIUS/CyqXIK5b3D6ZlhyP/6QRLIGxwwDQYJKoZIhvcNAQEL
+BQAwGDEWMBQGA1UEAwwNU1MtUHJvamVjdC1DQTAeFw0yNjAzMzAxNzUwMzFaFw0z
+NjAzMjcxNzUwMzFaMBgxFjAUBgNVBAMMDVNTLVByb2plY3QtQ0EwggEiMA0GCSqG
+SIb3DQEBAQUAA4IBDwAwggEKAoIBAQC2TmX/MMO/R7UHWB6NDVWTyDiFO2uSRfbu
+0iaHPaJnzoSYbLAl1WnZB/bc4IEmUQNyO5S40GIQCJpczC0GoGRnA6Bru+77zsL/
+mnp6QZvOIfWVsHP/FWGs8nELe9ToXeIHvmbNrz9YKj5o6cNSdidI74kZOc9AuIvO
+NAWcPvU5J3GB8tw+DfeJKfmiK9Y//Q8uyZEC1VB3ARzkRwg7TvWFOGjIhERtJgkZ
+KlsdoVXH1GUX527W5JYEPgTt9VQbzAIyPGiF7CIZdF+MrThKZAWnYrD7LCm/pp1X
+1uhciXAlvzpFYMEFCHwFb5FZVPX8Q2sVbc7viAeDT5shYl6mtPdTAgMBAAGjUzBR
+MB0GA1UdDgQWBBQbvkOYuknDJqzpAUrAg3uV+3AmsTAfBgNVHSMEGDAWgBQbvkOY
+uknDJqzpAUrAg3uV+3AmsTAPBgNVHRMBAf8EBTADAQH/MA0GCSqGSIb3DQEBCwUA
+A4IBAQAEYRMBxc234XevB19rIdiVkxrmwjtWh+/Q2G315GVt+6qDg3r/m96NpBgm
+a2rjqJkmQHM54SIaGmvJGDyS7RFIUMYb0b1NoZtO60CewM6lIaL5fYjx04EI5UHO
+oYnhECRDjFxPkdPYNB8yBMbQHixMhCLCKkX0EjpPNZFLEmaZDj16gsUNVwUYAB3G
+xw1G3WIHY4Fzrpc+5wS/aDwxPT8SYfzMro5WJyrDWP1NpXWHbN2I/xqAF/CpdRjA
+c5MZt1osCFgTRQBVxWroJKb7wckWuqjEqchiEvF2VcZb6hCcffVi222u9fQgqNHO
+cd6GJO/Lh5FoHnkiVa2u2Iic62bU"
+"-----END CERTIFICATE-----" ;
  
 // Topics
 const char* TOPIC_COMMAND = "ssproject/commands";
 const char* TOPIC_IMAGE   = "ssproject/images";
  
-WiFiClient espClient;
+WiFiClientSecure espClient;
 PubSubClient client(espClient);
  
 // State variables
@@ -142,7 +162,9 @@ void setup() {
     Serial.print(".");
   }
   Serial.printf("\nWiFi connected! IP: %s\n", WiFi.localIP().toString().c_str());
- 
+
+   espClient.setCACert(ca_cert);
+  
   client.setServer(mqtt_server, mqtt_port);
   client.setCallback(callback);
   client.setBufferSize(65000); 
